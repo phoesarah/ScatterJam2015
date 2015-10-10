@@ -10,6 +10,7 @@ TagManager:
   - Floor3
   - Floor
   - HookTop
+  - Goal
   layers:
   - Default
   - TransparentFX

@@ -3,13 +3,13 @@ using System.Collections;
 
 public class LevelScriptV2 : MonoBehaviour {
 	
-	public GameObject BuildingSpawn,BuildingSpawn2, BuildingSpawn3,BuildingSpawn4,BuildingSpawn5;
-	public GameObject BuildingClone,BuildingClone2;
+	public GameObject BuildingSpawn,BuildingSpawn2, BuildingSpawn3,BuildingSpawn4,BuildingSpawn5, BuildingFinalSpawn;
+	GameObject BuildingClone,BuildingClone2;
 	Vector3 BuildingPosition,BuildingPosition2;
 	
 	public Rigidbody HookSpawn;
 	Rigidbody HookClone;
-	Vector3 HookPosition;
+	Vector3 HookPosition,WindowPosition;
 	int RandomBldg;
 	
 	// Use this for initialization
@@ -29,6 +29,11 @@ public class LevelScriptV2 : MonoBehaviour {
 		
 		    RandomBldg = Random.Range(0,4);
 		    Debug.Log (RandomBldg);
+		    if (i == 49) {
+				BuildingPosition = new Vector3(Random.Range(-80.0F, 80.0F), Random.Range (0f,60f), Random.Range(-80.0F, 80.0F));
+				Instantiate(BuildingFinalSpawn, BuildingPosition, Quaternion.identity);	
+		    }
+		    else {
 		    if (RandomBldg == 0){
 				BuildingPosition = new Vector3(Random.Range(-80.0F, 80.0F), Random.Range (0f,60f), Random.Range(-80.0F, 80.0F));
 				Instantiate(BuildingSpawn, BuildingPosition, Quaternion.identity);
@@ -48,6 +53,7 @@ public class LevelScriptV2 : MonoBehaviour {
 			if (RandomBldg == 4){
 				BuildingPosition = new Vector3(Random.Range(-80.0F, 80.0F), Random.Range (0f,60f), Random.Range(-80.0F, 80.0F));
 				Instantiate(BuildingSpawn5, BuildingPosition, Quaternion.identity);
+			}
 			}
 			
 		}
