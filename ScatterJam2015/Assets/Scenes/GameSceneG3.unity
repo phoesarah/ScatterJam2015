@@ -410,7 +410,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BuildingSpawn: {fileID: 178662, guid: 7ce678e9d960f42d1915093438129e50, type: 2}
-  BuildingSpawn2: {fileID: 130708, guid: ee657952b8ca3451fba79411cd45b792, type: 2}
+  BuildingSpawn2: {fileID: 122016, guid: e8d783be556934c0fbc224534d97079f, type: 2}
   BuildingSpawn3: {fileID: 103254, guid: e44a8945e5b0f48adb033bdf4e9ed0d8, type: 2}
   BuildingSpawn4: {fileID: 172094, guid: 7ca4e615e865d4d9a9973e4c93a34860, type: 2}
   BuildingSpawn5: {fileID: 176066, guid: 5d173e0889dc041fb8f96c1079a325fe, type: 2}
@@ -429,49 +429,3 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4
---- !u!1001 &1422493004
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 441254, guid: 7ce678e9d960f42d1915093438129e50, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 40.5903664
-      objectReference: {fileID: 0}
-    - target: {fileID: 441254, guid: 7ce678e9d960f42d1915093438129e50, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 100.75573
-      objectReference: {fileID: 0}
-    - target: {fileID: 441254, guid: 7ce678e9d960f42d1915093438129e50, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: -42.5200233
-      objectReference: {fileID: 0}
-    - target: {fileID: 441254, guid: 7ce678e9d960f42d1915093438129e50, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 441254, guid: 7ce678e9d960f42d1915093438129e50, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 441254, guid: 7ce678e9d960f42d1915093438129e50, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 441254, guid: 7ce678e9d960f42d1915093438129e50, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 441254, guid: 7ce678e9d960f42d1915093438129e50, type: 2}
-      propertyPath: m_RootOrder
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 178662, guid: 7ce678e9d960f42d1915093438129e50, type: 2}
-      propertyPath: m_Name
-      value: BuildingPrefab (1)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: 7ce678e9d960f42d1915093438129e50, type: 2}
-  m_IsPrefabParent: 0
