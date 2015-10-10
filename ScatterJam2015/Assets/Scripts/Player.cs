@@ -92,7 +92,7 @@ public class Player : MonoBehaviour
                 _hookPoint = hit.point;
                 _ropeDeployed = fire1 ? 1 : 2;
                 _rigidbody.AddForce(
-                    _camera.transform.forward * _ropeForce - _rigidbody.velocity, 
+                    _camera.transform.forward * _ropeForce + _rigidbody.velocity * -0.5f, 
                     ForceMode.VelocityChange
                 );
             }
@@ -156,7 +156,7 @@ public class Player : MonoBehaviour
         if (col.gameObject.tag == "Hooker")
         {
             _ropeDeployed = 0;
-            //_rigidbody.AddForce(-_rigidbody.velocity, ForceMode.VelocityChange);
+            _rigidbody.AddForce(_rigidbody.velocity * -0.5f, ForceMode.VelocityChange);
         }
     }
 }
