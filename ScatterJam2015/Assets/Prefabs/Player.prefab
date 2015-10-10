@@ -386,6 +386,7 @@ MonoBehaviour:
   _fireSound1: {fileID: 8300000, guid: 1a48640b7b51e324e97213f17de3f656, type: 3}
   _fireSound2: {fileID: 8300000, guid: 974ee0ddff2507949aed214a7a614c6c, type: 3}
   _ropeMaterial: {fileID: 2100000, guid: c114bef294f7f2b4a9ef08efad609a64, type: 2}
+  _hud: {fileID: 0}
 --- !u!114 &11464164
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -419,7 +420,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fadeImage: {fileID: 11417004}
-  defaultFadeTime: 4
+  defaultFadeTime: 2
 --- !u!114 &11490642
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -592,6 +593,10 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_Size.z
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: defaultFadeTime
       value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []

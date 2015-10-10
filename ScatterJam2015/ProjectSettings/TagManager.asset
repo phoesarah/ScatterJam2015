@@ -11,6 +11,7 @@ TagManager:
   - Floor
   - HookTop
   - Goal
+  - Roof
   layers:
   - Default
   - TransparentFX

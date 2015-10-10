@@ -4,6 +4,9 @@ using System.Collections;
 public class Player : MonoBehaviour
 {
     private const int PLAYER_LAYER = 9;
+    private const string PLAYER_TAG = "Player";
+    private const string HOOKER_TAG = "Hooker";
+    private const string ROOF_TAG = "Roof";
 
     private float _yawSensitivity = 360.0f;
     private float _pitch = 0.0f;
@@ -101,7 +104,7 @@ public class Player : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(_camera.transform.position, _camera.transform.forward, out hit, maxDistance: _ropeLength, layerMask: layerMask))
         {
-            bool hitHook = (hit.collider.gameObject.tag == "Hooker");
+            bool hitHook = (hit.collider.gameObject.tag == HOOKER_TAG || hit.collider.gameObject.tag == ROOF_TAG);
             if ((fire1 || fire2) && hitHook)
             {
                 _hookPoint = hit.point;
@@ -122,7 +125,7 @@ public class Player : MonoBehaviour
             //    depthTest: false
             //);
             _target.transform.position = hit.point;
-            _target.SetActive(true);
+            _target.SetActive(hitHook);
         }
         else
         {
@@ -184,7 +187,7 @@ public class Player : MonoBehaviour
 
     public void OnCollisionEnter(Collision col)
     {
-        if (col.gameObject.tag != "Player" && col.gameObject.tag != "Hooker")
+        if (col.gameObject.tag != PLAYER_TAG && col.gameObject.tag != ROOF_TAG)
         {
             _ropeDeployed = 0;
             _rigidbody.AddForce(_rigidbody.velocity * -0.5f, ForceMode.VelocityChange);

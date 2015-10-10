@@ -31,7 +31,7 @@ GameObject:
   - 23: {fileID: 2360256}
   m_Layer: 0
   m_Name: BuildingTop
-  m_TagString: Hooker
+  m_TagString: Roof
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -438,7 +438,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_TagString
-      value: Hooker
+      value: Roof
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_Enabled
