@@ -10,7 +10,7 @@ public class Player : MonoBehaviour
     private float _pitchSensitivity = 180.0f;
     private float _pitchMax = 90.0f;
     private float _ropeLength = 100.0f;
-    private float _ropeForce = 3.0f;
+    private float _ropeForce = 2.0f;
     private int _ropeDeployed = 0;
     private Vector3 _hookPoint = Vector3.zero;
     private AudioSource _fxAudioSource = null;
@@ -24,8 +24,8 @@ public class Player : MonoBehaviour
     void Start()
     {
         _pitchMax = Mathf.Clamp(_pitchMax, 0.0f, 90.0f);
-        _hookPoint = transform.position + transform.forward * _ropeLength;
-        _ropeDeployed = 3;
+        //_hookPoint = transform.position + transform.forward * _ropeLength;
+        //_ropeDeployed = 3;
         _fxAudioSource = gameObject.AddComponent<AudioSource>();
 
         if (!_camera)
