@@ -16,13 +16,14 @@ public class Player : MonoBehaviour
     private AudioSource _fxAudioSource = null;
     private AudioSource _targetAudioSource = null;
     private LineRenderer _ropeRenderer = null;
-
+    
     public Camera _camera = null;
     public Rigidbody _rigidbody = null;
     public GameObject _target = null;
     public AudioClip _fireSound1 = null;
     public AudioClip _fireSound2 = null;
     public Material _ropeMaterial;
+    public Hud _hud;
 
     // Use this for initialization
     void Start()
@@ -45,6 +46,10 @@ public class Player : MonoBehaviour
         if (!_rigidbody)
         {
             _rigidbody = GetComponent<Rigidbody>();
+        }
+        if (!_hud)
+        {
+            _hud = GetComponent<Hud>();
         }
 
         _rigidbody.drag = 0.0f;
@@ -109,25 +114,25 @@ public class Player : MonoBehaviour
                 _targetAudioSource.clip = _fireSound2;
                 _targetAudioSource.PlayDelayed(Mathf.Min(0.1f, hit.distance / _ropeLength * 2.0f));
             }
-            Debug.DrawLine(
-                start: transform.position,
-                end: hit.point,
-                color: hitHook ? Color.white : Color.black,
-                duration: 0.0f,
-                depthTest: false
-            );
+            //Debug.DrawLine(
+            //    start: transform.position,
+            //    end: hit.point,
+            //    color: hitHook ? Color.white : Color.black,
+            //    duration: 0.0f,
+            //    depthTest: false
+            //);
             _target.transform.position = hit.point;
             _target.SetActive(true);
         }
         else
         {
-            Debug.DrawRay(
-                start: _camera.transform.position,
-                dir: _camera.transform.forward * _ropeLength,
-                color: Color.black,
-                duration: 0.0f,
-                depthTest: false
-            );
+            //Debug.DrawRay(
+            //    start: _camera.transform.position,
+            //    dir: _camera.transform.forward * _ropeLength,
+            //    color: Color.black,
+            //    duration: 0.0f,
+            //    depthTest: false
+            //);
             _target.SetActive(false);
         }
 
@@ -140,13 +145,13 @@ public class Player : MonoBehaviour
         {
             var ropeColor = GetRopeColor(_ropeDeployed);
 
-            Debug.DrawLine(
-                start: transform.position,
-                end: _hookPoint,
-                color: ropeColor,
-                duration: 0.0f,
-                depthTest: false
-            );
+            //Debug.DrawLine(
+            //    start: transform.position,
+            //    end: _hookPoint,
+            //    color: ropeColor,
+            //    duration: 0.0f,
+            //    depthTest: false
+            //);
 
             var ropeForce = (_hookPoint - transform.position).normalized * _ropeForce;
             _rigidbody.AddForce(ropeForce, ForceMode.Acceleration);
@@ -179,11 +184,12 @@ public class Player : MonoBehaviour
 
     public void OnCollisionEnter(Collision col)
     {
-        if (col.gameObject.tag != "Player")
+        if (col.gameObject.tag != "Player" && col.gameObject.tag != "Hooker")
         {
-            //_ropeDeployed = 0;
-            //_rigidbody.AddForce(_rigidbody.velocity * -0.5f, ForceMode.VelocityChange);
-            Application.LoadLevel(Application.loadedLevel);
+            _ropeDeployed = 0;
+            _rigidbody.AddForce(_rigidbody.velocity * -0.5f, ForceMode.VelocityChange);
+            _hud.FadeTo(Color.red, 1.0f);
+            //Application.LoadLevel(Application.loadedLevel);
         }
     }
 }
