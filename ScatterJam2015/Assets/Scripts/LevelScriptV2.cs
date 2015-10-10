@@ -3,8 +3,8 @@ using System.Collections;
 
 public class LevelScriptV2 : MonoBehaviour {
 	
-	public Rigidbody BuildingSpawn,BuildingSpawn2, BuildingSpawn3,BuildingSpawn4,BuildingSpawn5;
-	Rigidbody BuildingClone,BuildingClone2;
+	public GameObject BuildingSpawn,BuildingSpawn2, BuildingSpawn3,BuildingSpawn4,BuildingSpawn5;
+	public GameObject BuildingClone,BuildingClone2;
 	Vector3 BuildingPosition,BuildingPosition2;
 	
 	public Rigidbody HookSpawn;
@@ -16,7 +16,7 @@ public class LevelScriptV2 : MonoBehaviour {
 	void Start () {
 		
 		//instantiate the first building 10 points off origin remember to keep y at 0
-		BuildingClone = (Rigidbody) Instantiate(BuildingSpawn);
+		//BuildingClone = (GameObject) Instantiate(BuildingSpawn);
 		BuildingPosition = new Vector3 (10f, 0.0f, 10f); // Set the Position
 		Instantiate (BuildingSpawn, BuildingPosition, transform.rotation);
 		//HookClone = (Rigidbody) Instantiate(HookSpawn);
