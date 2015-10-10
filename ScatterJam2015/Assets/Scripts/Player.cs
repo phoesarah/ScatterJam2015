@@ -92,7 +92,7 @@ public class Player : MonoBehaviour
                 _hookPoint = hit.point;
                 _ropeDeployed = fire1 ? 1 : 2;
                 _rigidbody.AddForce(
-                    _camera.transform.forward * _ropeForce + _rigidbody.velocity * -0.5f, 
+                    _camera.transform.forward * _ropeForce + _rigidbody.velocity * -1f, 
                     ForceMode.VelocityChange
                 );
             }
