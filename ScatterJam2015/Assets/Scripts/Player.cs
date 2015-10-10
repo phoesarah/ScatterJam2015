@@ -181,8 +181,9 @@ public class Player : MonoBehaviour
     {
         if (col.gameObject.tag != "Player")
         {
-            _ropeDeployed = 0;
-            _rigidbody.AddForce(_rigidbody.velocity * -0.5f, ForceMode.VelocityChange);
+            //_ropeDeployed = 0;
+            //_rigidbody.AddForce(_rigidbody.velocity * -0.5f, ForceMode.VelocityChange);
+            Application.LoadLevel(Application.loadedLevel);
         }
     }
 }
