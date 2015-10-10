@@ -7,6 +7,9 @@ TagManager:
   - Hooker
   - Target
   - Rope
+  - Floor3
+  - Floor
+  - HookTop
   layers:
   - Default
   - TransparentFX
