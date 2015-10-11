@@ -350,7 +350,7 @@ AudioSource:
   m_Volume: .5
   m_Pitch: 1
   Loop: 1
-  Mute: 0
+  Mute: 1
   Spatialize: 0
   Priority: 128
   DopplerLevel: 1
@@ -457,7 +457,7 @@ MonoBehaviour:
   _fireSound1: {fileID: 8300000, guid: 1a48640b7b51e324e97213f17de3f656, type: 3}
   _fireSound2: {fileID: 8300000, guid: 974ee0ddff2507949aed214a7a614c6c, type: 3}
   _ropeMaterial: {fileID: 2100000, guid: c114bef294f7f2b4a9ef08efad609a64, type: 2}
-  _hud: {fileID: 0}
+  _hud: {fileID: 11468428}
 --- !u!114 &11464164
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -682,6 +682,14 @@ Prefab:
       propertyPath: m_Volume
       value: .5
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: Mute
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: _hud
+      value: 
+      objectReference: {fileID: 11468428}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 109436}
