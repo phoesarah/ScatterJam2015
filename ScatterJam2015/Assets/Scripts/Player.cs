@@ -51,6 +51,11 @@ public class Player : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        if (!Application.isEditor)
+        {
+            Cursor.visible = false;
+        }
+
         _pitchMax = Mathf.Clamp(_pitchMax, 0.0f, 90.0f);
         //_hookPoint = transform.position + transform.forward * _ropeLength;
         //_ropeDeployed = 3;
@@ -83,6 +88,11 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!Application.isEditor)
+        {
+            Cursor.visible = false;
+        }
+
         // Quit / Restart
 
         if (Input.GetButtonDown("Quit"))
