@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
     private const string PLAYER_TAG = "Player";
     private const string HOOKER_TAG = "Hooker";
     private const string ROOF_TAG = "Roof";
+    private const string NEAR_BIRD_TAG = "NearBird";
 
     private float _yawSensitivity = 360.0f;
     private float _pitch = 0.0f;
@@ -26,6 +27,7 @@ public class Player : MonoBehaviour
     public GameObject _target = null;
     public AudioClip _fireSound1 = null;
     public AudioClip _fireSound2 = null;
+    public AudioClip _buCaw = null;
     public Material _ropeMaterial;
     public Hud _hud;
 
@@ -205,6 +207,14 @@ public class Player : MonoBehaviour
             _rigidbody.AddForce(_rigidbody.velocity * -0.5f, ForceMode.VelocityChange);
             _hud.FadeTo(Color.white, 2.0f);
             //Application.LoadLevel(Application.loadedLevel);
+        }
+    }
+
+    public void OnTriggerEnter(Collider col)
+    {
+        if(col.gameObject.tag == NEAR_BIRD_TAG)
+        {
+            _fxAudioSource.PlayOneShot(_buCaw);
         }
     }
 }

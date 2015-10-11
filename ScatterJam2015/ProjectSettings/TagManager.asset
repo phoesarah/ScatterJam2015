@@ -12,6 +12,7 @@ TagManager:
   - HookTop
   - Goal
   - Roof
+  - NearBird
   layers:
   - Default
   - TransparentFX

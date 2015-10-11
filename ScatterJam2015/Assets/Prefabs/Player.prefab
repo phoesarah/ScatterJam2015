@@ -456,6 +456,7 @@ MonoBehaviour:
   _target: {fileID: 149070}
   _fireSound1: {fileID: 8300000, guid: 1a48640b7b51e324e97213f17de3f656, type: 3}
   _fireSound2: {fileID: 8300000, guid: 974ee0ddff2507949aed214a7a614c6c, type: 3}
+  _buCaw: {fileID: 8300000, guid: f33ed7258636b5f4f90d62aa25bee529, type: 3}
   _ropeMaterial: {fileID: 2100000, guid: c114bef294f7f2b4a9ef08efad609a64, type: 2}
   _hud: {fileID: 11468428}
 --- !u!114 &11464164
@@ -690,6 +691,10 @@ Prefab:
       propertyPath: _hud
       value: 
       objectReference: {fileID: 11468428}
+    - target: {fileID: 0}
+      propertyPath: _buCaw
+      value: 
+      objectReference: {fileID: 8300000, guid: f33ed7258636b5f4f90d62aa25bee529, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 109436}
