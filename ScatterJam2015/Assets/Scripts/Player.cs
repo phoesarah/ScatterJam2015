@@ -209,6 +209,11 @@ public class Player : MonoBehaviour
             var ropeVector = (_grapple.transform.position - transform.position);
             _rigidbody.AddForce(ropeVector * _ropeForce, ForceMode.Acceleration);
 
+            //var grappleScale = new Vector3(
+            //    1.0f / _grapple.transform.lossyScale.x,
+            //    1.0f / _grapple.transform.lossyScale.y,
+            //    1.0f / _grapple.transform.lossyScale.z
+            //);
             var grappleScale = Vector3.one;
             var grappleParent = _grapple.transform.parent;
             while (grappleParent != null)
@@ -218,7 +223,7 @@ public class Player : MonoBehaviour
                 grappleScale.z /= grappleParent.localScale.z;
                 grappleParent = grappleParent.parent;
             }
-            _grapple.transform.forward = ropeVector.normalized;
+            _grapple.transform.rotation = _camera.transform.rotation;
             _grapple.transform.localScale = grappleScale;
             _grapple.SetActive(true);
 
