@@ -510,3 +510,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58be39f5ef8974116869a947e5bedc38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Arrow2Spawn: {fileID: 0}
