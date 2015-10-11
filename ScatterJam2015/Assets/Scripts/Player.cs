@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
     private const string PLAYER_TAG = "Player";
     private const string HOOKER_TAG = "Hooker";
     private const string ROOF_TAG = "Roof";
+    private const string WINDOW_TAG = "Goal";
 
     private float _yawSensitivity = 360.0f;
     private float _pitch = 0.0f;
@@ -239,11 +240,32 @@ public class Player : MonoBehaviour
         //Application.LoadLevel(Application.loadedLevel);
     }
 
+	public void OnWndow()
+	{
+		if(Application.loadedLevelName == "GameSceneG1"){
+			Application.LoadLevel("GameSceneG2");
+		}
+		if(Application.loadedLevelName == "GameSceneG2"){
+			Application.LoadLevel("GameSceneG3");
+		}
+		if(Application.loadedLevelName == "GameSceneG3"){
+			Application.LoadLevel("GameSceneG3");
+			//Application.LoadLevel(Application.loadedLevel);
+		}
+	}
+	
     public void OnCollisionEnter(Collision col)
     {
+    	Debug.Log("In Collision");
+    	Debug.Log (col.gameObject.tag);
         if (col.gameObject.tag == PLAYER_TAG)
         {
         }
+		else if (col.gameObject.tag == WINDOW_TAG)
+		{
+			Debug.Log ("Made it to Window");
+			OnWndow();
+		}
         else if (col.gameObject.tag == ROOF_TAG)
         {
             _rigidbody.AddForce(_rigidbody.velocity * -0.5f, ForceMode.VelocityChange);
