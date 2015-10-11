@@ -350,6 +350,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 1101892480}
   - 114: {fileID: 1101892479}
+  - 114: {fileID: 1101892481}
   m_Layer: 0
   m_Name: ScriptRunner
   m_TagString: Untagged
@@ -387,3 +388,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
+--- !u!114 &1101892481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1101892478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 854e05c8c663e3e42b2e3d393fcf7de6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bird: {fileID: 196798, guid: 5f07bb6171e62f24e98d1311c84fd384, type: 2}
+  _birdCount: 500
+  _birdRadius: 100

@@ -15,6 +15,7 @@ public class Player : MonoBehaviour
     private float _ropeLength = 200.0f;
     private float _ropeForce = 8.0f;
     private int _ropeDeployed = 0;
+    private bool _dead = false;
     private Vector3 _hookPoint = Vector3.zero;
     private AudioSource _fxAudioSource = null;
     private AudioSource _targetAudioSource = null;
@@ -27,6 +28,11 @@ public class Player : MonoBehaviour
     public AudioClip _fireSound2 = null;
     public Material _ropeMaterial;
     public Hud _hud;
+
+    public bool dead
+    {
+        get { return _dead; }
+    }
 
     // Use this for initialization
     void Start()
@@ -115,7 +121,12 @@ public class Player : MonoBehaviour
                 );
                 _targetAudioSource.Stop();
                 _targetAudioSource.clip = _fireSound2;
-                _targetAudioSource.PlayDelayed(Mathf.Min(0.1f, hit.distance / _ropeLength * 2.0f));
+                _targetAudioSource.loop = false;
+                _targetAudioSource.rolloffMode = AudioRolloffMode.Logarithmic;
+                _targetAudioSource.spatialize = true;
+                _targetAudioSource.spatialBlend = 0.9f;
+                _targetAudioSource.PlayDelayed(1.0f);
+                //_targetAudioSource.PlayDelayed(Mathf.Min(0.1f, hit.distance / _ropeLength * 2.0f));
             }
             //Debug.DrawLine(
             //    start: transform.position,
@@ -189,9 +200,10 @@ public class Player : MonoBehaviour
     {
         if (col.gameObject.tag != PLAYER_TAG && col.gameObject.tag != ROOF_TAG)
         {
+            _dead = true;
             _ropeDeployed = 0;
             _rigidbody.AddForce(_rigidbody.velocity * -0.5f, ForceMode.VelocityChange);
-            _hud.FadeTo(Color.red, 1.0f);
+            _hud.FadeTo(Color.white, 2.0f);
             //Application.LoadLevel(Application.loadedLevel);
         }
     }
