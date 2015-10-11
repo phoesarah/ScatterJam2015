@@ -82,6 +82,15 @@ public class Player : MonoBehaviour
             Application.LoadLevel(Application.loadedLevel);
             return;
         }
+        if (!_dead && transform.position.y < 0.0f)
+        {
+            OnDeath();
+            return;
+        }
+        if (_dead)
+        {
+            return;
+        }
 
         // Inputs
 
@@ -107,21 +116,27 @@ public class Player : MonoBehaviour
         // Grapple Hook
 
         int layerMask = ~(1 << PLAYER_LAYER);  // Ignore Player Layer
+        int rope = fire1 ? 1 : (fire2 ? 2 : 0);
         RaycastHit hit;
         if (Physics.Raycast(_camera.transform.position, _camera.transform.forward, out hit, maxDistance: _ropeLength, layerMask: layerMask))
         {
             bool hitHook = true; //(hit.collider.gameObject.tag == HOOKER_TAG || hit.collider.gameObject.tag == ROOF_TAG);
-            if ((fire1 || fire2) && hitHook)
+            if (rope == _ropeDeployed)
+            {
+                _grapple.SetActive(false);
+                _ropeDeployed = 0;
+            }
+            else if (hitHook && rope > 0)
             {
                 _grapple.transform.parent = hit.collider.transform;
                 _grapple.transform.position = hit.point;
-
-                _ropeDeployed = fire1 ? 1 : 2;
+                _fxAudioSource.PlayOneShot(_fireSound1);
+                _ropeDeployed = rope;
+                
                 //_rigidbody.AddForce(
                 //    _rigidbody.velocity * -0.5f, 
                 //    ForceMode.VelocityChange
                 //);
-                _fxAudioSource.PlayOneShot(_fireSound1);
                 //_targetAudioSource.Stop();
                 //_targetAudioSource.clip = _fireSound2;
                 //_targetAudioSource.loop = false;
@@ -131,40 +146,22 @@ public class Player : MonoBehaviour
                 //_targetAudioSource.PlayDelayed(1.0f);
                 //_targetAudioSource.PlayDelayed(Mathf.Min(0.1f, hit.distance / _ropeLength * 2.0f));
             }
-            //Debug.DrawLine(
-            //    start: transform.position,
-            //    end: hit.point,
-            //    color: hitHook ? Color.white : Color.black,
-            //    duration: 0.0f,
-            //    depthTest: false
-            //);
             _target.transform.position = hit.point;
             _target.SetActive(hitHook);
         }
         else
         {
-            //Debug.DrawRay(
-            //    start: _camera.transform.position,
-            //    dir: _camera.transform.forward * _ropeLength,
-            //    color: Color.black,
-            //    duration: 0.0f,
-            //    depthTest: false
-            //);
+            if (rope == _ropeDeployed)
+            {
+                _grapple.SetActive(false);
+                _ropeDeployed = 0;
+            }
             _target.SetActive(false);
         }
 
         if (_ropeDeployed > 0)
         {
-            var ropeColor = GetRopeColor(_ropeDeployed);
-
-            //Debug.DrawLine(
-            //    start: transform.position,
-            //    end: _hookPoint,
-            //    color: ropeColor,
-            //    duration: 0.0f,
-            //    depthTest: false
-            //);
-
+            //var ropeColor = GetRopeColor(_ropeDeployed);
             var ropeVector = (_grapple.transform.position - transform.position);
             _rigidbody.AddForce(ropeVector * _ropeForce, ForceMode.Acceleration);
 
@@ -184,7 +181,7 @@ public class Player : MonoBehaviour
             _ropeRenderer.SetVertexCount(2);
             _ropeRenderer.SetPosition(0, transform.position + transform.up * -2.0f);
             _ropeRenderer.SetPosition(1, _grapple.transform.position);
-            _ropeRenderer.SetColors(ropeColor, ropeColor);
+            //_ropeRenderer.SetColors(ropeColor, ropeColor);
             _ropeRenderer.SetWidth(0.1f, 0.1f);
             _ropeRenderer.enabled = true;
         }
@@ -207,16 +204,21 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void OnDeath()
+    {
+        _dead = true;
+        _ropeDeployed = 0;
+        _rigidbody.AddForce(_rigidbody.velocity * -0.5f, ForceMode.VelocityChange);
+        _grapple.SetActive(false);
+        _hud.FadeTo(Color.white, 1.0f);
+        //Application.LoadLevel(Application.loadedLevel);
+    }
+
     public void OnCollisionEnter(Collision col)
     {
         if (col.gameObject.tag != PLAYER_TAG && col.gameObject.tag != ROOF_TAG)
         {
-            _dead = true;
-            _ropeDeployed = 0;
-            _rigidbody.AddForce(_rigidbody.velocity * -0.5f, ForceMode.VelocityChange);
-            _grapple.SetActive(false);
-            _hud.FadeTo(Color.white, 2.0f);
-            //Application.LoadLevel(Application.loadedLevel);
+            OnDeath();
         }
     }
 }
