@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
     private const string PLAYER_TAG = "Player";
     private const string HOOKER_TAG = "Hooker";
     private const string ROOF_TAG = "Roof";
+    private const string GOAL_TAG = "Goal";
 
     private float _yawSensitivity = 360.0f;
     private float _pitch = 0.0f;
@@ -16,6 +17,8 @@ public class Player : MonoBehaviour
     private float _ropeForce = 0.2f;
     private int _ropeDeployed = 0;
     private bool _dead = false;
+    private bool _goalReached = false;
+    private float _loadLevelDelay = 1.0f;
     private AudioSource _fxAudioSource = null;
     private AudioSource _targetAudioSource = null;
     private LineRenderer _ropeRenderer = null;
@@ -29,10 +32,15 @@ public class Player : MonoBehaviour
     public Material _ropeMaterial2;
     public Hud _hud;
     public GameObject _grapple;
+    public string _nextLevel;
 
     public bool dead
     {
         get { return _dead; }
+    }
+    public bool goalReached
+    {
+        get { return _goalReached; }
     }
 
     // Use this for initialization
@@ -82,19 +90,32 @@ public class Player : MonoBehaviour
             Application.LoadLevel(Application.loadedLevel);
             return;
         }
-        if (!_dead && transform.position.y < -60.0f)
+
+        float deltaTime = Time.deltaTime;
+        if (_goalReached || _dead)
+        {
+            _loadLevelDelay -= deltaTime;
+            if (_loadLevelDelay <= 0.0f)
+            {
+                if (_goalReached && !string.IsNullOrEmpty(_nextLevel))
+                {
+                    Application.LoadLevel(_nextLevel);
+                }
+                else
+                {
+                    Application.LoadLevel(Application.loadedLevel);
+                }
+            }
+            return;
+        }
+        if (transform.position.y < -60.0f)
         {
             OnDeath();
             return;
         }
-        if (_dead)
-        {
-            return;
-        }
 
         // Inputs
-
-        float deltaTime = Time.deltaTime;
+        
         float mouseX = Input.GetAxis("Mouse X");
         float mouseY = Input.GetAxis("Mouse Y");
         bool fire1 = Input.GetButtonDown("Fire1");
@@ -249,26 +270,58 @@ public class Player : MonoBehaviour
 
     public void OnDeath()
     {
-        _dead = true;
-        _ropeDeployed = 0;
-        _rigidbody.AddForce(_rigidbody.velocity * -0.5f, ForceMode.VelocityChange);
-        _grapple.SetActive(false);
-        _hud.FadeTo(Color.white, 1.0f);
-        //Application.LoadLevel(Application.loadedLevel);
+        if (!_dead && !_goalReached)
+        {
+            _dead = true;
+            _ropeDeployed = 0;
+            _rigidbody.AddForce(_rigidbody.velocity * -0.5f, ForceMode.VelocityChange);
+            _grapple.SetActive(false);
+            _hud.FadeTo(Color.black, _loadLevelDelay);
+        }
+    }
+
+    public void OnGoalReached()
+    {
+        if (!_dead && !_goalReached)
+        {
+            _goalReached = true;
+            _ropeDeployed = 0;
+            _rigidbody.AddForce(_rigidbody.velocity * -0.5f, ForceMode.VelocityChange);
+            _grapple.SetActive(false);
+            _hud.FadeTo(Color.white, _loadLevelDelay);
+        }
     }
 
     public void OnCollisionEnter(Collision col)
     {
-        if (col.gameObject.tag == PLAYER_TAG)
+        switch (col.gameObject.tag)
         {
+            case PLAYER_TAG:
+                break;
+            case ROOF_TAG:
+                _rigidbody.AddForce(_rigidbody.velocity * -0.5f, ForceMode.VelocityChange);
+                break;
+            case GOAL_TAG:
+                OnGoalReached();
+                break;
+            default:
+                OnDeath();
+                break;
         }
-        else if (col.gameObject.tag == ROOF_TAG)
+    }
+
+    public void OnTriggerEnter(Collider col)
+    {
+        switch (col.gameObject.tag)
         {
-            _rigidbody.AddForce(_rigidbody.velocity * -0.5f, ForceMode.VelocityChange);
-        }
-        else
-        {
-            OnDeath();
+            case PLAYER_TAG:
+                break;
+            case GOAL_TAG:
+                OnGoalReached();
+                break;
+            default:
+                OnDeath();
+                break;
         }
     }
 }

@@ -7,8 +7,7 @@ public class Arrow2Display2 : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-		GameObject.Find("Arrow2").active = true;
-		
+		//GameObject.Find("Arrow2").active = true;
 	}
 	
 	// Update is called once per frame
