@@ -462,7 +462,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 2070695847}
   - 114: {fileID: 2070695848}
-  - 114: {fileID: 2070695849}
   m_Layer: 0
   m_Name: ScriptRunner
   m_TagString: Untagged

@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
     private const string HOOKER_TAG = "Hooker";
     private const string ROOF_TAG = "Roof";
     private const string GOAL_TAG = "Goal";
+
     private const string NEAR_BIRD_TAG = "NearBird";
 
     private float _yawSensitivity = 360.0f;
@@ -284,7 +285,6 @@ public class Player : MonoBehaviour
             _hud.FadeTo(Color.black, _loadLevelDelay);
         }
     }
-
     public void OnGoalReached()
     {
         if (!_dead && !_goalReached)
