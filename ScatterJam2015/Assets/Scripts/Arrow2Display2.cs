@@ -10,18 +10,16 @@ public class Arrow2Display2 : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-		StartCoroutine (startInstructions ());	
+		//GameObject.Find("Arrow2").active = true;
+		StartCoroutine (startInstructions ());
 	}
 	
 	// Update is called once per frame
 	void Update () {
-
-		}
+	}
 
 	IEnumerator startInstructions() {
 		yield return new WaitForSeconds(5.0f);
-		Instantiate (Arrow2Spawn);
-
-		
+		Instantiate(Arrow2Spawn);
 	}
 }

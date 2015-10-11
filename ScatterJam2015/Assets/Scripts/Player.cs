@@ -7,16 +7,22 @@ public class Player : MonoBehaviour
     private const string PLAYER_TAG = "Player";
     private const string HOOKER_TAG = "Hooker";
     private const string ROOF_TAG = "Roof";
+<<<<<<< HEAD
     private const string WINDOW_TAG = "Goal";
+=======
+    private const string GOAL_TAG = "Goal";
+>>>>>>> origin/master
 
     private float _yawSensitivity = 360.0f;
     private float _pitch = 0.0f;
     private float _pitchSensitivity = 180.0f;
     private float _pitchMax = 90.0f;
     private float _ropeLength = 200.0f;
-    private float _ropeForce = 0.1f;
+    private float _ropeForce = 0.2f;
     private int _ropeDeployed = 0;
     private bool _dead = false;
+    private bool _goalReached = false;
+    private float _loadLevelDelay = 1.0f;
     private AudioSource _fxAudioSource = null;
     private AudioSource _targetAudioSource = null;
     private LineRenderer _ropeRenderer = null;
@@ -30,10 +36,15 @@ public class Player : MonoBehaviour
     public Material _ropeMaterial2;
     public Hud _hud;
     public GameObject _grapple;
+    public string _nextLevel;
 
     public bool dead
     {
         get { return _dead; }
+    }
+    public bool goalReached
+    {
+        get { return _goalReached; }
     }
 
     // Use this for initialization
@@ -83,19 +94,32 @@ public class Player : MonoBehaviour
             Application.LoadLevel(Application.loadedLevel);
             return;
         }
-        if (!_dead && transform.position.y < -60.0f)
+
+        float deltaTime = Time.deltaTime;
+        if (_goalReached || _dead)
+        {
+            _loadLevelDelay -= deltaTime;
+            if (_loadLevelDelay <= 0.0f)
+            {
+                if (_goalReached && !string.IsNullOrEmpty(_nextLevel))
+                {
+                    Application.LoadLevel(_nextLevel);
+                }
+                else
+                {
+                    Application.LoadLevel(Application.loadedLevel);
+                }
+            }
+            return;
+        }
+        if (transform.position.y < -60.0f)
         {
             OnDeath();
             return;
         }
-        if (_dead)
-        {
-            return;
-        }
 
         // Inputs
-
-        float deltaTime = Time.deltaTime;
+        
         float mouseX = Input.GetAxis("Mouse X");
         float mouseY = Input.GetAxis("Mouse Y");
         bool fire1 = Input.GetButtonDown("Fire1");
@@ -133,7 +157,25 @@ public class Player : MonoBehaviour
                 _grapple.transform.position = hit.point;
                 _fxAudioSource.PlayOneShot(_fireSound1);
                 _ropeDeployed = rope;
-                
+
+                var nearbyColliders = Physics.OverlapSphere(transform.position, 3.0f);
+                var nearRoof = false;
+                foreach (var c in nearbyColliders)
+                {
+                    if (c.gameObject.tag == ROOF_TAG)
+                    {
+                        nearRoof = true;
+                        break;
+                    }
+                }
+                if (nearRoof)
+                {
+                    _rigidbody.AddForce(
+                        transform.up * 2.0f,
+                        ForceMode.VelocityChange
+                    );
+                }
+
                 //_rigidbody.AddForce(
                 //    _rigidbody.velocity * -0.5f, 
                 //    ForceMode.VelocityChange
@@ -232,14 +274,17 @@ public class Player : MonoBehaviour
 
     public void OnDeath()
     {
-        _dead = true;
-        _ropeDeployed = 0;
-        _rigidbody.AddForce(_rigidbody.velocity * -0.5f, ForceMode.VelocityChange);
-        _grapple.SetActive(false);
-        _hud.FadeTo(Color.white, 1.0f);
-        //Application.LoadLevel(Application.loadedLevel);
+        if (!_dead && !_goalReached)
+        {
+            _dead = true;
+            _ropeDeployed = 0;
+            _rigidbody.AddForce(_rigidbody.velocity * -0.5f, ForceMode.VelocityChange);
+            _grapple.SetActive(false);
+            _hud.FadeTo(Color.black, _loadLevelDelay);
+        }
     }
 
+<<<<<<< HEAD
 	public void OnWndow()
 	{
 		if(Application.loadedLevelName == "GameSceneG1"){
@@ -259,20 +304,59 @@ public class Player : MonoBehaviour
     	Debug.Log("In Collision");
     	Debug.Log (col.gameObject.tag);
         if (col.gameObject.tag == PLAYER_TAG)
+=======
+    public void OnGoalReached()
+    {
+        if (!_dead && !_goalReached)
+>>>>>>> origin/master
         {
+            _goalReached = true;
+            _ropeDeployed = 0;
+            _rigidbody.AddForce(_rigidbody.velocity * -0.5f, ForceMode.VelocityChange);
+            _grapple.SetActive(false);
+            _hud.FadeTo(Color.white, _loadLevelDelay);
         }
+<<<<<<< HEAD
 		else if (col.gameObject.tag == WINDOW_TAG)
 		{
 			Debug.Log ("Made it to Window");
 			OnWndow();
 		}
         else if (col.gameObject.tag == ROOF_TAG)
+=======
+    }
+
+    public void OnCollisionEnter(Collision col)
+    {
+        switch (col.gameObject.tag)
+>>>>>>> origin/master
         {
-            _rigidbody.AddForce(_rigidbody.velocity * -0.5f, ForceMode.VelocityChange);
+            case PLAYER_TAG:
+                break;
+            case ROOF_TAG:
+                _rigidbody.AddForce(_rigidbody.velocity * -0.5f, ForceMode.VelocityChange);
+                break;
+            case GOAL_TAG:
+                OnGoalReached();
+                break;
+            default:
+                OnDeath();
+                break;
         }
-        else
+    }
+
+    public void OnTriggerEnter(Collider col)
+    {
+        switch (col.gameObject.tag)
         {
-            OnDeath();
+            case PLAYER_TAG:
+                break;
+            case GOAL_TAG:
+                OnGoalReached();
+                break;
+            default:
+                OnDeath();
+                break;
         }
     }
 }
