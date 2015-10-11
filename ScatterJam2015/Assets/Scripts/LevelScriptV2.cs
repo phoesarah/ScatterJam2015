@@ -10,7 +10,6 @@ public class LevelScriptV2 : MonoBehaviour {
 	public Rigidbody HookSpawn;
 	Rigidbody HookClone;
 	Vector3 HookPosition,WindowPosition;
-	int RandomBldg;
 	
 	// Use this for initialization
 	void Start () {
@@ -24,48 +23,44 @@ public class LevelScriptV2 : MonoBehaviour {
 		//HookSpawn.transform.Rotate(90f,0f,0f);
 		Instantiate (HookSpawn, HookPosition, transform.rotation);
 		
-		
 		for (int i = 0; i < 50; i++) {
-		
-		    RandomBldg = Random.Range(0,4);
-		    Debug.Log (RandomBldg);
-		    if (i == 49) {
-				BuildingPosition = new Vector3(Random.Range(-80.0F, 80.0F), Random.Range (0f,60f), Random.Range(-80.0F, 80.0F));
-				Instantiate(BuildingFinalSpawn, BuildingPosition, Quaternion.identity);	
-		    }
-		    else {
-		    if (RandomBldg == 0){
+
+            int RandomBldg = Random.Range(0, 14);
+            if (RandomBldg < 3){
 				BuildingPosition = new Vector3(Random.Range(-80.0F, 80.0F), Random.Range (0f,60f), Random.Range(-80.0F, 80.0F));
 				Instantiate(BuildingSpawn, BuildingPosition, Quaternion.identity);
 			}
-			if (RandomBldg == 1){
+			else if (RandomBldg < 6){
 				BuildingPosition = new Vector3(Random.Range(-80.0F, 80.0F), Random.Range (0f,60f), Random.Range(-80.0F, 80.0F));
 				Instantiate(BuildingSpawn2, BuildingPosition, Quaternion.identity);
 			}
-			if (RandomBldg == 2){
+            else if (RandomBldg < 9){
 				BuildingPosition = new Vector3(Random.Range(-80.0F, 80.0F), Random.Range (0f,60f), Random.Range(-80.0F, 80.0F));
 				Instantiate(BuildingSpawn3, BuildingPosition, Quaternion.identity);
 			}
-			if (RandomBldg == 3){
-				BuildingPosition = new Vector3(Random.Range(-80.0F, 80.0F), Random.Range (0f,60f), Random.Range(-80.0F, 80.0F));
+            else if (RandomBldg < 12){
+				BuildingPosition = new Vector3(Random.Range(-80.0F, 80.0F), Random.Range(0f,60f), Random.Range(-80.0F, 80.0F));
 				Instantiate(BuildingSpawn4, BuildingPosition, Quaternion.identity);
 			}
-			if (RandomBldg == 4){
-				BuildingPosition = new Vector3(Random.Range(-80.0F, 80.0F), Random.Range (0f,60f), Random.Range(-80.0F, 80.0F));
+            else {
+				BuildingPosition = new Vector3(Random.Range(-80.0F, 80.0F), Random.Range(0f, 60f), Random.Range(-80.0F, 80.0F));
 				Instantiate(BuildingSpawn5, BuildingPosition, Quaternion.identity);
-			}
 			}
 			
 		}
-		
-		//		BuildingPosition = new Vector3(Random.Range(-40.0F, 40.0F), 0, Random.Range(-40.0F, 40.0F));
-		//		Instantiate(BuildingSpawn3, BuildingPosition, Quaternion.identity);
-		//		BuildingPosition = new Vector3(Random.Range(-40.0F, 40.0F), 0, Random.Range(-40.0F, 40.0F));
-		//		Instantiate(BuildingSpawn4, BuildingPosition, Quaternion.identity);
-		//		BuildingPosition = new Vector3(Random.Range(-40.0F, 40.0F), 0, Random.Range(-40.0F, 40.0F));
-		BuildingSpawn5.transform.localScale = new Vector3(2f, 40f,7f);
-		Instantiate(BuildingSpawn5, BuildingPosition, Quaternion.identity);
-	}
+        {
+            BuildingPosition = new Vector3(Random.Range(-80.0F, 80.0F), Random.Range(0f, 60f), Random.Range(-80.0F, 80.0F));
+            Instantiate(BuildingFinalSpawn, BuildingPosition, Quaternion.identity);
+        }
+
+        //		BuildingPosition = new Vector3(Random.Range(-40.0F, 40.0F), 0, Random.Range(-40.0F, 40.0F));
+        //		Instantiate(BuildingSpawn3, BuildingPosition, Quaternion.identity);
+        //		BuildingPosition = new Vector3(Random.Range(-40.0F, 40.0F), 0, Random.Range(-40.0F, 40.0F));
+        //		Instantiate(BuildingSpawn4, BuildingPosition, Quaternion.identity);
+        //		BuildingPosition = new Vector3(Random.Range(-40.0F, 40.0F), 0, Random.Range(-40.0F, 40.0F));
+        //BuildingSpawn5.transform.localScale = new Vector3(2f, 40f,7f);
+        //Instantiate(BuildingSpawn5, BuildingPosition, Quaternion.identity);
+    }
 	
 	// Update is called once per frame
 	void Update () {
