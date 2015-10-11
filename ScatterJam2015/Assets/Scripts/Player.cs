@@ -15,7 +15,7 @@ public class Player : MonoBehaviour
     private float _pitch = 0.0f;
     private float _pitchSensitivity = 180.0f;
     private float _pitchMax = 90.0f;
-    private float _ropeLength = 200.0f;
+    private float _ropeLength = 50.0f;
     private float _ropeForce = 0.2f;
     private int _ropeDeployed = 0;
     private bool _dead = false;
@@ -291,7 +291,7 @@ public class Player : MonoBehaviour
         {
             _goalReached = true;
             _ropeDeployed = 0;
-            _rigidbody.AddForce(_rigidbody.velocity * -0.5f, ForceMode.VelocityChange);
+            _rigidbody.AddForce(-_rigidbody.velocity, ForceMode.VelocityChange);
             _grapple.SetActive(false);
             _hud.FadeTo(Color.white, _loadLevelDelay);
         }
