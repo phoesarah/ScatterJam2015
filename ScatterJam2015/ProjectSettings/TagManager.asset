@@ -12,6 +12,8 @@ TagManager:
   - HookTop
   - Goal
   - Roof
+  - Arrow
+  - Arrow2
   - NearBird
   layers:
   - Default
