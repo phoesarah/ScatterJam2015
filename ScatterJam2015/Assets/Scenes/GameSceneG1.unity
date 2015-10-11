@@ -266,9 +266,10 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 961344127}
+  - 114: {fileID: 961344128}
   m_Layer: 0
   m_Name: Arrow1Prefab
-  m_TagString: Untagged
+  m_TagString: Arrow
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -287,6 +288,17 @@ Transform:
   - {fileID: 1282307450}
   m_Father: {fileID: 0}
   m_RootOrder: 4
+--- !u!114 &961344128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 961344126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fce911f02c48454ea52adc91b069772, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1004596951
 Prefab:
   m_ObjectHideFlags: 0
