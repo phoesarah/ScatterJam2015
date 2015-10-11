@@ -297,6 +297,10 @@ Prefab:
       propertyPath: _nextLevel
       value: GameSceneG3
       objectReference: {fileID: 0}
+    - target: {fileID: 11433280, guid: 638863a3df8b96c4f81301436f2c96a3, type: 2}
+      propertyPath: _collision
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 638863a3df8b96c4f81301436f2c96a3, type: 2}
   m_IsPrefabParent: 0
@@ -446,7 +450,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BuildingSpawn: {fileID: 178662, guid: 7ce678e9d960f42d1915093438129e50, type: 2}
-  BuildingSpawn2: {fileID: 148038, guid: 39460673bb41b46d5b355b55834f189e, type: 2}
+  BuildingSpawn2: {fileID: 184370, guid: f50632b83d83d43db93cca9d39591b0f, type: 2}
   BuildingSpawn3: {fileID: 178662, guid: 7ce678e9d960f42d1915093438129e50, type: 2}
   BuildingSpawn4: {fileID: 181890, guid: b56cdab7d1d1549348cac7ca7f2ffc5b, type: 2}
   BuildingSpawn5: {fileID: 109592, guid: 57d3ab6e5c95d4162a10e42e998ae024, type: 2}

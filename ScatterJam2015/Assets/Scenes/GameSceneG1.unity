@@ -462,6 +462,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 2070695847}
   - 114: {fileID: 2070695848}
+  - 114: {fileID: 2070695849}
   m_Layer: 0
   m_Name: ScriptRunner
   m_TagString: Untagged
@@ -509,4 +510,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58be39f5ef8974116869a947e5bedc38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Arrow2Spawn: {fileID: 0}
+  Arrow2Spawn: {fileID: 142816, guid: 9efb56f3d923c49438290153d4c29bc6, type: 2}
