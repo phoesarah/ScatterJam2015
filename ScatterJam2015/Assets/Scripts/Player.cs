@@ -13,7 +13,7 @@ public class Player : MonoBehaviour
     private float _pitchSensitivity = 180.0f;
     private float _pitchMax = 90.0f;
     private float _ropeLength = 200.0f;
-    private float _ropeForce = 0.1f;
+    private float _ropeForce = 0.2f;
     private int _ropeDeployed = 0;
     private bool _dead = false;
     private AudioSource _fxAudioSource = null;
@@ -132,7 +132,25 @@ public class Player : MonoBehaviour
                 _grapple.transform.position = hit.point;
                 _fxAudioSource.PlayOneShot(_fireSound1);
                 _ropeDeployed = rope;
-                
+
+                var nearbyColliders = Physics.OverlapSphere(transform.position, 3.0f);
+                var nearRoof = false;
+                foreach (var c in nearbyColliders)
+                {
+                    if (c.gameObject.tag == ROOF_TAG)
+                    {
+                        nearRoof = true;
+                        break;
+                    }
+                }
+                if (nearRoof)
+                {
+                    _rigidbody.AddForce(
+                        transform.up * 2.0f,
+                        ForceMode.VelocityChange
+                    );
+                }
+
                 //_rigidbody.AddForce(
                 //    _rigidbody.velocity * -0.5f, 
                 //    ForceMode.VelocityChange
