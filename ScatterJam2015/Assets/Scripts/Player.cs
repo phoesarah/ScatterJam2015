@@ -287,7 +287,7 @@ public class Player : MonoBehaviour
             _rigidbody.AddForce(_rigidbody.velocity * -0.5f, ForceMode.VelocityChange);
             _grapple.SetActive(false);
             _fxAudioSource.PlayOneShot(_collision, 0.5f);
-            _hud.FadeTo(Color.black, _loadLevelDelay);
+            _hud.FadeTo(Color.black, _loadLevelDelay * 0.5f);
             _hud.text.text = "OUCH!\n\nYOU SHOULD HAVE KNOWN BY NOW";
         }
     }
@@ -299,7 +299,7 @@ public class Player : MonoBehaviour
             _ropeDeployed = 0;
             _rigidbody.AddForce(-_rigidbody.velocity, ForceMode.VelocityChange);
             _grapple.SetActive(false);
-            _hud.FadeTo(Color.white, _loadLevelDelay);
+            _hud.FadeTo(Color.white, _loadLevelDelay * 0.5f);
             _hud.text.text = "A LITTLE BIT HARDER NOW";
         }
     }
