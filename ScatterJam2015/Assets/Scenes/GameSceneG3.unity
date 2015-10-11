@@ -327,9 +327,9 @@ Prefab:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 11433280, guid: 638863a3df8b96c4f81301436f2c96a3, type: 2}
-      propertyPath: _collision
-      value: 
-      objectReference: {fileID: 8300000, guid: 9db7d04fdd2042e49a4d0c1825c607ae, type: 3}
+      propertyPath: _nextLevel
+      value: GameSceneG3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 638863a3df8b96c4f81301436f2c96a3, type: 2}
   m_IsPrefabParent: 0

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 public class Hud : MonoBehaviour
 {
     public Image fadeImage;
+    public Text text;
     public float defaultFadeTime = 4;
 
     private Color startColor;

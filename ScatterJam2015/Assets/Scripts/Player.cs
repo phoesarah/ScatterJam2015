@@ -20,7 +20,7 @@ public class Player : MonoBehaviour
     private int _ropeDeployed = 0;
     private bool _dead = false;
     private bool _goalReached = false;
-    private float _loadLevelDelay = 1.0f;
+    private float _loadLevelDelay = 2.0f;
     private AudioSource _fxAudioSource = null;
     private AudioSource _targetAudioSource = null;
     private LineRenderer _ropeRenderer = null;
@@ -85,12 +85,12 @@ public class Player : MonoBehaviour
     {
         // Quit / Restart
 
-        if (Input.GetButton("Quit"))
+        if (Input.GetButtonDown("Quit"))
         {
             Application.Quit();
             return;
         }
-        if (Input.GetButton("Restart"))
+        if (Input.GetButtonDown("Restart"))
         {
             Application.LoadLevel(Application.loadedLevel);
             return;
@@ -288,6 +288,7 @@ public class Player : MonoBehaviour
             _grapple.SetActive(false);
             _fxAudioSource.PlayOneShot(_collision, 0.5f);
             _hud.FadeTo(Color.black, _loadLevelDelay);
+            _hud.text.text = "OUCH!\n\nYOU SHOULD HAVE KNOWN BY NOW";
         }
     }
     public void OnGoalReached()
@@ -299,6 +300,7 @@ public class Player : MonoBehaviour
             _rigidbody.AddForce(-_rigidbody.velocity, ForceMode.VelocityChange);
             _grapple.SetActive(false);
             _hud.FadeTo(Color.white, _loadLevelDelay);
+            _hud.text.text = "A LITTLE BIT HARDER NOW";
         }
     }
 
