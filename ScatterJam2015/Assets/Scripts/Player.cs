@@ -43,11 +43,6 @@ public class Player : MonoBehaviour
         _fxAudioSource = gameObject.AddComponent<AudioSource>();
         _targetAudioSource = _target.AddComponent<AudioSource>();
 
-        _ropeRenderer = gameObject.AddComponent<LineRenderer>();
-        _ropeRenderer.useWorldSpace = true;
-        _ropeRenderer.enabled = false;
-        _ropeRenderer.material = _ropeMaterial;
-
         if (!_camera)
         {
             _camera = Camera.main;
@@ -65,6 +60,11 @@ public class Player : MonoBehaviour
         _rigidbody.angularDrag = 0.0f;
         _rigidbody.freezeRotation = true;
         _rigidbody.isKinematic = false;
+
+        _ropeRenderer = gameObject.AddComponent<LineRenderer>();
+        _ropeRenderer.useWorldSpace = true;
+        _ropeRenderer.enabled = false;
+        _ropeRenderer.material = _ropeMaterial;
     }
 
     // Update is called once per frame
@@ -110,7 +110,7 @@ public class Player : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(_camera.transform.position, _camera.transform.forward, out hit, maxDistance: _ropeLength, layerMask: layerMask))
         {
-            bool hitHook = (hit.collider.gameObject.tag == HOOKER_TAG || hit.collider.gameObject.tag == ROOF_TAG);
+            bool hitHook = true; //(hit.collider.gameObject.tag == HOOKER_TAG || hit.collider.gameObject.tag == ROOF_TAG);
             if ((fire1 || fire2) && hitHook)
             {
                 _hookPoint = hit.point;
@@ -123,7 +123,7 @@ public class Player : MonoBehaviour
                 _targetAudioSource.clip = _fireSound2;
                 _targetAudioSource.loop = false;
                 _targetAudioSource.rolloffMode = AudioRolloffMode.Logarithmic;
-                _targetAudioSource.spatialize = true;
+                _targetAudioSource.spatialize = false;
                 _targetAudioSource.spatialBlend = 0.9f;
                 _targetAudioSource.PlayDelayed(1.0f);
                 //_targetAudioSource.PlayDelayed(Mathf.Min(0.1f, hit.distance / _ropeLength * 2.0f));

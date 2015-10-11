@@ -400,5 +400,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _bird: {fileID: 196798, guid: 5f07bb6171e62f24e98d1311c84fd384, type: 2}
-  _birdCount: 500
+  _birdCount: 250
   _birdRadius: 100

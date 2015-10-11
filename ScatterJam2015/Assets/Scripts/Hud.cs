@@ -26,6 +26,7 @@ public class Hud : MonoBehaviour
         startColor = Color.black;
         fadeImage.color = startColor;
         fadeImage.enabled = true;
+        fadeImage.gameObject.SetActive(true);
         FadeToClear();
     }
 
