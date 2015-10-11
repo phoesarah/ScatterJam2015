@@ -28,6 +28,7 @@ public class Player : MonoBehaviour
     public AudioClip _fireSound1 = null;
     public AudioClip _fireSound2 = null;
     public AudioClip _buCaw = null;
+    public AudioClip _collision = null;
     public Material _ropeMaterial;
     public Hud _hud;
 
@@ -205,6 +206,7 @@ public class Player : MonoBehaviour
             _dead = true;
             _ropeDeployed = 0;
             _rigidbody.AddForce(_rigidbody.velocity * -0.5f, ForceMode.VelocityChange);
+            _fxAudioSource.PlayOneShot(_collision);
             _hud.FadeTo(Color.white, 2.0f);
             //Application.LoadLevel(Application.loadedLevel);
         }
