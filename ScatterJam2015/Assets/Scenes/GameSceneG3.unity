@@ -399,6 +399,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 854e05c8c663e3e42b2e3d393fcf7de6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bird: {fileID: 0}
+  _bird: {fileID: 196798, guid: 5f07bb6171e62f24e98d1311c84fd384, type: 2}
   _birdCount: 500
-  _birdRadius: 300
+  _birdRadius: 100
