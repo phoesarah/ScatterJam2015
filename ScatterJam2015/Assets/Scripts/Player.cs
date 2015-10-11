@@ -216,7 +216,14 @@ public class Player : MonoBehaviour
 
     public void OnCollisionEnter(Collision col)
     {
-        if (col.gameObject.tag != PLAYER_TAG && col.gameObject.tag != ROOF_TAG)
+        if (col.gameObject.tag == PLAYER_TAG)
+        {
+        }
+        else if (col.gameObject.tag == ROOF_TAG)
+        {
+            _rigidbody.AddForce(_rigidbody.velocity * -0.5f, ForceMode.VelocityChange);
+        }
+        else
         {
             OnDeath();
         }

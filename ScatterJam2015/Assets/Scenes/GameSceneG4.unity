@@ -41,7 +41,7 @@ RenderSettings:
 LightmapSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 5
-  m_GIWorkflowMode: 0
+  m_GIWorkflowMode: 1
   m_LightmapsMode: 1
   m_GISettings:
     serializedVersion: 2
@@ -66,7 +66,8 @@ LightmapSettings:
     m_FinalGather: 0
     m_FinalGatherRayCount: 1024
     m_ReflectionCompression: 2
-  m_LightmapSnapshot: {fileID: 0}
+  m_LightmapSnapshot: {fileID: 112000001, guid: 69f5cb02c0407f440be05d4867880826,
+    type: 2}
   m_RuntimeCPUUsage: 25
 --- !u!196 &4
 NavMeshSettings:
@@ -177,6 +178,7 @@ MonoBehaviour:
   BuildingSpawn3: {fileID: 5429828, guid: 7ce678e9d960f42d1915093438129e50, type: 2}
   BuildingSpawn4: {fileID: 5429828, guid: 7ce678e9d960f42d1915093438129e50, type: 2}
   BuildingSpawn5: {fileID: 5429828, guid: 7ce678e9d960f42d1915093438129e50, type: 2}
+  BuildingFinalSpawn: {fileID: 0}
   HookSpawn: {fileID: 5436084, guid: 3469aa05d107f4699b46e6994f6c2856, type: 2}
 --- !u!4 &1082287751
 Transform:
