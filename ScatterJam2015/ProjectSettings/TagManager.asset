@@ -16,6 +16,7 @@ TagManager:
   - Arrow2
   - RedBuilding
   - NearBird
+  - PlayButton
   layers:
   - Default
   - TransparentFX
