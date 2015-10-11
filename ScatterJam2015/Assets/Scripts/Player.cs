@@ -281,7 +281,7 @@ public class Player : MonoBehaviour
             _ropeDeployed = 0;
             _rigidbody.AddForce(_rigidbody.velocity * -0.5f, ForceMode.VelocityChange);
             _grapple.SetActive(false);
-            _fxAudioSource.PlayOneShot(_collision);
+            _fxAudioSource.PlayOneShot(_collision, 0.5f);
             _hud.FadeTo(Color.black, _loadLevelDelay);
         }
     }
@@ -325,8 +325,8 @@ public class Player : MonoBehaviour
                 OnGoalReached();
                 break;
 			case NEAR_BIRD_TAG:
-            	_fxAudioSource.PlayOneShot(_buCaw);
-				break;
+            	_fxAudioSource.PlayOneShot(_buCaw, 0.5f);
+                break;
             default:
                 OnDeath();
                 break;
