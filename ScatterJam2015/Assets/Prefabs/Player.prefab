@@ -535,7 +535,8 @@ MonoBehaviour:
   _target: {fileID: 149070}
   _fireSound1: {fileID: 8300000, guid: 1a48640b7b51e324e97213f17de3f656, type: 3}
   _fireSound2: {fileID: 8300000, guid: 974ee0ddff2507949aed214a7a614c6c, type: 3}
-  _ropeMaterial: {fileID: 2100000, guid: c114bef294f7f2b4a9ef08efad609a64, type: 2}
+  _ropeMaterial1: {fileID: 2100000, guid: 690a97d782db05e4b84c986c2c8a62df, type: 2}
+  _ropeMaterial2: {fileID: 2100000, guid: 9d156a6fb89488f4ca2443832916e20b, type: 2}
   _hud: {fileID: 11468428}
   _grapple: {fileID: 158964}
 --- !u!114 &11464164
@@ -725,7 +726,7 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: _ropeMaterial
       value: 
-      objectReference: {fileID: 2100000, guid: c114bef294f7f2b4a9ef08efad609a64, type: 2}
+      objectReference: {fileID: 2100000, guid: 690a97d782db05e4b84c986c2c8a62df, type: 2}
     - target: {fileID: 0}
       propertyPath: m_CustomSkybox
       value: 
@@ -774,6 +775,14 @@ Prefab:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: c114bef294f7f2b4a9ef08efad609a64, type: 2}
+    - target: {fileID: 0}
+      propertyPath: _ropeMaterial1
+      value: 
+      objectReference: {fileID: 2100000, guid: 690a97d782db05e4b84c986c2c8a62df, type: 2}
+    - target: {fileID: 0}
+      propertyPath: _ropeMaterial2
+      value: 
+      objectReference: {fileID: 2100000, guid: 9d156a6fb89488f4ca2443832916e20b, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 109436}

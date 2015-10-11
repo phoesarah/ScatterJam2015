@@ -13,7 +13,7 @@ public class Player : MonoBehaviour
     private float _pitchSensitivity = 180.0f;
     private float _pitchMax = 90.0f;
     private float _ropeLength = 200.0f;
-    private float _ropeForce = 0.2f;
+    private float _ropeForce = 0.1f;
     private int _ropeDeployed = 0;
     private bool _dead = false;
     private AudioSource _fxAudioSource = null;
@@ -25,7 +25,8 @@ public class Player : MonoBehaviour
     public GameObject _target;
     public AudioClip _fireSound1;
     public AudioClip _fireSound2;
-    public Material _ropeMaterial;
+    public Material _ropeMaterial1;
+    public Material _ropeMaterial2;
     public Hud _hud;
     public GameObject _grapple;
 
@@ -64,7 +65,6 @@ public class Player : MonoBehaviour
         _ropeRenderer = gameObject.AddComponent<LineRenderer>();
         _ropeRenderer.useWorldSpace = true;
         _ropeRenderer.enabled = false;
-        _ropeRenderer.material = _ropeMaterial;
     }
 
     // Update is called once per frame
@@ -82,7 +82,7 @@ public class Player : MonoBehaviour
             Application.LoadLevel(Application.loadedLevel);
             return;
         }
-        if (!_dead && transform.position.y < 0.0f)
+        if (!_dead && transform.position.y < -60.0f)
         {
             OnDeath();
             return;
@@ -178,11 +178,23 @@ public class Player : MonoBehaviour
             _grapple.transform.localScale = grappleScale;
             _grapple.SetActive(true);
 
-            _ropeRenderer.SetVertexCount(2);
-            _ropeRenderer.SetPosition(0, transform.position + transform.up * -2.0f);
-            _ropeRenderer.SetPosition(1, _grapple.transform.position);
-            //_ropeRenderer.SetColors(ropeColor, ropeColor);
+            Vector3 ropeStart = transform.position + transform.up * -2.0f;
+            Vector3 ropeEnd = _grapple.transform.position;
+            int segments = 10;
+            _ropeRenderer.useWorldSpace = true;
+            _ropeRenderer.material = GetRopeMaterial(_ropeDeployed);
             _ropeRenderer.SetWidth(0.1f, 0.1f);
+            _ropeRenderer.SetColors(Color.white, Color.white);
+            _ropeRenderer.SetVertexCount(1 + segments);
+            _ropeRenderer.SetPosition(0, ropeStart);
+            for (int i = 1; i < segments; ++i)
+            {
+                float t = ((float)i) / ((float)segments);
+                var a = ropeEnd * t;
+                var b = ropeStart * (1 - t);
+                _ropeRenderer.SetPosition(i, a + b);
+            }
+            _ropeRenderer.SetPosition(segments, ropeEnd);
             _ropeRenderer.enabled = true;
         }
         else
@@ -201,6 +213,19 @@ public class Player : MonoBehaviour
                 return Color.blue;
             default:
                 return Color.black;
+        }
+    }
+
+    private Material GetRopeMaterial(int rope)
+    {
+        switch (rope)
+        {
+            case 1:
+                return _ropeMaterial1;
+            case 2:
+                return _ropeMaterial2;
+            default:
+                return null;
         }
     }
 
