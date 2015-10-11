@@ -54,6 +54,7 @@ public class Player : MonoBehaviour
         if (!Application.isEditor)
         {
             Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
         }
 
         _pitchMax = Mathf.Clamp(_pitchMax, 0.0f, 90.0f);
@@ -91,6 +92,7 @@ public class Player : MonoBehaviour
         if (!Application.isEditor)
         {
             Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
         }
 
         // Quit / Restart
