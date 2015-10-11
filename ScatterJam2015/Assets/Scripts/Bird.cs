@@ -4,6 +4,8 @@ using System.Collections;
 
 public class Bird : MonoBehaviour {
 
+    private float _directionDuration = 0.0f;
+    private float _rotate = 0.0f;
     
     // Use this for initialization
 
@@ -14,8 +16,14 @@ public class Bird : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        
+        float deltaTime = Time.deltaTime;
+        if (_directionDuration <= 0)
+        {
+            _directionDuration = Random.Range(2, 3);
+            _rotate = Random.Range(-1F, 1F);
+        }
         transform.position += transform.forward * -0.05f;
-        transform.Rotate(transform.up, 1.0f); //Random.Range(-10F, 10F));
+        transform.Rotate(transform.up, _rotate);
+        _directionDuration -= deltaTime;
     }
 }
