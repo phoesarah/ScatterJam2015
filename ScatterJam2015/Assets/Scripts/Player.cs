@@ -13,21 +13,21 @@ public class Player : MonoBehaviour
     private float _pitchSensitivity = 180.0f;
     private float _pitchMax = 90.0f;
     private float _ropeLength = 200.0f;
-    private float _ropeForce = 8.0f;
+    private float _ropeForce = 0.2f;
     private int _ropeDeployed = 0;
     private bool _dead = false;
-    private Vector3 _hookPoint = Vector3.zero;
     private AudioSource _fxAudioSource = null;
     private AudioSource _targetAudioSource = null;
     private LineRenderer _ropeRenderer = null;
     
-    public Camera _camera = null;
-    public Rigidbody _rigidbody = null;
-    public GameObject _target = null;
-    public AudioClip _fireSound1 = null;
-    public AudioClip _fireSound2 = null;
+    public Camera _camera;
+    public Rigidbody _rigidbody;
+    public GameObject _target;
+    public AudioClip _fireSound1;
+    public AudioClip _fireSound2;
     public Material _ropeMaterial;
     public Hud _hud;
+    public GameObject _grapple;
 
     public bool dead
     {
@@ -113,19 +113,22 @@ public class Player : MonoBehaviour
             bool hitHook = true; //(hit.collider.gameObject.tag == HOOKER_TAG || hit.collider.gameObject.tag == ROOF_TAG);
             if ((fire1 || fire2) && hitHook)
             {
-                _hookPoint = hit.point;
+                _grapple.transform.parent = hit.collider.transform;
+                _grapple.transform.position = hit.point;
+
                 _ropeDeployed = fire1 ? 1 : 2;
-                _rigidbody.AddForce(
-                    _camera.transform.forward * _ropeForce + _rigidbody.velocity * -1.0f, 
-                    ForceMode.VelocityChange
-                );
-                _targetAudioSource.Stop();
-                _targetAudioSource.clip = _fireSound2;
-                _targetAudioSource.loop = false;
-                _targetAudioSource.rolloffMode = AudioRolloffMode.Logarithmic;
-                _targetAudioSource.spatialize = false;
-                _targetAudioSource.spatialBlend = 0.9f;
-                _targetAudioSource.PlayDelayed(1.0f);
+                //_rigidbody.AddForce(
+                //    _rigidbody.velocity * -0.5f, 
+                //    ForceMode.VelocityChange
+                //);
+                _fxAudioSource.PlayOneShot(_fireSound1);
+                //_targetAudioSource.Stop();
+                //_targetAudioSource.clip = _fireSound2;
+                //_targetAudioSource.loop = false;
+                //_targetAudioSource.rolloffMode = AudioRolloffMode.Logarithmic;
+                //_targetAudioSource.spatialize = false;
+                //_targetAudioSource.spatialBlend = 0.9f;
+                //_targetAudioSource.PlayDelayed(1.0f);
                 //_targetAudioSource.PlayDelayed(Mathf.Min(0.1f, hit.distance / _ropeLength * 2.0f));
             }
             //Debug.DrawLine(
@@ -150,11 +153,6 @@ public class Player : MonoBehaviour
             _target.SetActive(false);
         }
 
-        if (fire1 || fire2)
-        {
-            _fxAudioSource.PlayOneShot(_fireSound1);
-        }
-
         if (_ropeDeployed > 0)
         {
             var ropeColor = GetRopeColor(_ropeDeployed);
@@ -167,12 +165,25 @@ public class Player : MonoBehaviour
             //    depthTest: false
             //);
 
-            var ropeForce = (_hookPoint - transform.position).normalized * _ropeForce;
-            _rigidbody.AddForce(ropeForce, ForceMode.Acceleration);
+            var ropeVector = (_grapple.transform.position - transform.position);
+            _rigidbody.AddForce(ropeVector * _ropeForce, ForceMode.Acceleration);
+
+            var grappleScale = Vector3.one;
+            var grappleParent = _grapple.transform.parent;
+            while (grappleParent != null)
+            {
+                grappleScale.x /= grappleParent.localScale.x;
+                grappleScale.y /= grappleParent.localScale.y;
+                grappleScale.z /= grappleParent.localScale.z;
+                grappleParent = grappleParent.parent;
+            }
+            _grapple.transform.forward = ropeVector.normalized;
+            _grapple.transform.localScale = grappleScale;
+            _grapple.SetActive(true);
 
             _ropeRenderer.SetVertexCount(2);
             _ropeRenderer.SetPosition(0, transform.position + transform.up * -2.0f);
-            _ropeRenderer.SetPosition(1, _hookPoint);
+            _ropeRenderer.SetPosition(1, _grapple.transform.position);
             _ropeRenderer.SetColors(ropeColor, ropeColor);
             _ropeRenderer.SetWidth(0.1f, 0.1f);
             _ropeRenderer.enabled = true;
@@ -203,6 +214,7 @@ public class Player : MonoBehaviour
             _dead = true;
             _ropeDeployed = 0;
             _rigidbody.AddForce(_rigidbody.velocity * -0.5f, ForceMode.VelocityChange);
+            _grapple.SetActive(false);
             _hud.FadeTo(Color.white, 2.0f);
             //Application.LoadLevel(Application.loadedLevel);
         }
