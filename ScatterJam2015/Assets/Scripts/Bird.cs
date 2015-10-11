@@ -17,13 +17,16 @@ public class Bird : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         float deltaTime = Time.deltaTime;
-        if (_directionDuration <= 0)
+        if (deltaTime > 0.0f)
         {
-            _directionDuration = Random.Range(2, 3);
-            _rotate = Random.Range(-1F, 1F);
+            if (_directionDuration <= 0)
+            {
+                _directionDuration = Random.Range(2, 3);
+                _rotate = Random.Range(-1F, 1F);
+            }
+            transform.position += transform.forward * -0.05f;
+            transform.Rotate(transform.up, _rotate);
+            _directionDuration -= deltaTime;
         }
-        transform.position += transform.forward * -0.05f;
-        transform.Rotate(transform.up, _rotate);
-        _directionDuration -= deltaTime;
     }
 }

@@ -107,6 +107,10 @@ public class Player : MonoBehaviour
             Application.LoadLevel(Application.loadedLevel);
             return;
         }
+        if (Input.GetButtonDown("Pause"))
+        {
+            Time.timeScale = (Time.timeScale == 0.0f ? 1.0f : 0.0f);
+        }
 
         float deltaTime = Time.deltaTime;
         if (_goalReached || _dead)
