@@ -38,4 +38,10 @@ public class Level2 : MonoBehaviour {
 	void Update () {
 		
 	}
+	IEnumerator startInstructions() {
+		
+		//GameObject.Find("coinsDrop").GetComponent<SpriteRenderer>().enabled = true;
+		yield return new WaitForSeconds(3.50f);
+		GameObject.Find("Arrow2").GetComponent<MeshRenderer>().enabled = true;
+		}
 }
