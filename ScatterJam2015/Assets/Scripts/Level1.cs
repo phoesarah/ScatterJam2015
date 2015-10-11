@@ -3,8 +3,8 @@ using System.Collections;
 
 public class Level1 : MonoBehaviour {
 	
-	public Rigidbody BuildingSpawn,BuildingSpawn2, BuildingSpawn3,BuildingSpawn4,BuildingSpawn5;
-	Rigidbody BuildingClone,BuildingClone2;
+	public GameObject BuildingSpawn,BuildingSpawn2, BuildingSpawn3,BuildingSpawn4,BuildingSpawn5;
+	GameObject BuildingClone,BuildingClone2;
 	Vector3 BuildingPosition,BuildingPosition2;
 	
 	public Rigidbody HookSpawn;
@@ -17,13 +17,15 @@ public class Level1 : MonoBehaviour {
 		
 		
 		//instantiate the first building 10 points off origin remember to keep y at 0
-		BuildingClone = (Rigidbody) Instantiate(BuildingSpawn);
-		BuildingPosition = new Vector3 (-1.8f, 10.0f, 14f); // Set the Position
-		Instantiate (BuildingSpawn, BuildingPosition, transform.rotation);
+		//BuildingClone = (Rigidbody) Instantiate(BuildingSpawn);
+		BuildingPosition = new Vector3 (-0.3279794f, 10.0f, -1.187622f); // Set the Position
+		Instantiate (BuildingSpawn, BuildingPosition, Quaternion.identity);
 		//HookClone = (Rigidbody) Instantiate(HookSpawn);
-		HookPosition = new Vector3 (-19f, 38.83f, 13.9f); // Set the Position
+		//HookPosition = new Vector3 (-19f, 38.83f, 13.9f); // Set the Position
 		//HookSpawn.transform.Rotate(90f,0f,0f);
-		Instantiate (HookSpawn, HookPosition, transform.rotation);
+		//Instantiate (HookSpawn, HookPosition, transform.rotation);
+		BuildingPosition = new Vector3 (-21.8f, 10.0f, 14f); // Set the Position
+		Instantiate (BuildingSpawn2, BuildingPosition, Quaternion.identity);
 		
 		
 //			BuildingPosition = new Vector3(Random.Range(-40.0F, 40.0F), 0, Random.Range(-40.0F, 40.0F));

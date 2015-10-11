@@ -1,10 +1,16 @@
 fileFormatVersion: 2
 guid: c19ad12f8ee594717940723571acccde
-timeCreated: 1444486978
+timeCreated: 1444527240
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - BuildingSpawn: {fileID: 122016, guid: e8d783be556934c0fbc224534d97079f, type: 2}
+  - BuildingSpawn2: {fileID: 184370, guid: f50632b83d83d43db93cca9d39591b0f, type: 2}
+  - BuildingSpawn3: {fileID: 181890, guid: b56cdab7d1d1549348cac7ca7f2ffc5b, type: 2}
+  - BuildingSpawn4: {fileID: 181890, guid: b56cdab7d1d1549348cac7ca7f2ffc5b, type: 2}
+  - BuildingSpawn5: {fileID: 109592, guid: 57d3ab6e5c95d4162a10e42e998ae024, type: 2}
+  - HookSpawn: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
