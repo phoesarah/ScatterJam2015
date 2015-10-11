@@ -287,7 +287,7 @@ Transform:
   - {fileID: 724326636}
   - {fileID: 1282307450}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
 --- !u!114 &961344128
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -458,6 +458,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 2070695847}
   - 114: {fileID: 2070695848}
+  - 114: {fileID: 2070695849}
   m_Layer: 0
   m_Name: ScriptRunner
   m_TagString: Untagged
@@ -494,3 +495,14 @@ MonoBehaviour:
   BuildingSpawn4: {fileID: 181890, guid: b56cdab7d1d1549348cac7ca7f2ffc5b, type: 2}
   BuildingSpawn5: {fileID: 109592, guid: 57d3ab6e5c95d4162a10e42e998ae024, type: 2}
   HookSpawn: {fileID: 5436084, guid: 3469aa05d107f4699b46e6994f6c2856, type: 2}
+--- !u!114 &2070695849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2070695846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58be39f5ef8974116869a947e5bedc38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
