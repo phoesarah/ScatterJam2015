@@ -11,7 +11,7 @@ public class BirdSpawn : MonoBehaviour {
 	void Start () {
         for (int i = 0; i < _birdCount; i++)
         {
-            Vector3 v = Random.insideUnitSphere * _birdRadius;
+            Vector3 v = transform.position + Random.insideUnitSphere * _birdRadius;
             Instantiate(_bird, v, Quaternion.identity);
         }
 	}
