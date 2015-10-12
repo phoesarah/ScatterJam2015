@@ -1,14 +1,17 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    private const int BIRD_LAYER = 8;
     private const int PLAYER_LAYER = 9;
     private const string PLAYER_TAG = "Player";
     private const string HOOKER_TAG = "Hooker";
     private const string ROOF_TAG = "Roof";
     private const string GOAL_TAG = "Goal";
-
+    private const string BIRD_TAG = "Bird";
     private const string NEAR_BIRD_TAG = "NearBird";
 
     private float _yawSensitivity = 360.0f;
@@ -17,24 +20,23 @@ public class Player : MonoBehaviour
     private float _pitchMax = 90.0f;
     private float _ropeLength = 75.0f;
     private float _ropeForce = 0.2f;
-    private int _ropeDeployed = 0;
     private bool _dead = false;
     private bool _goalReached = false;
     private float _loadLevelDelay = 2.0f;
     private AudioSource _fxAudioSource = null;
-    private AudioSource _targetAudioSource = null;
-    private LineRenderer _ropeRenderer = null;
-    
+    //private AudioSource _targetAudioSource = null;
+    private List<Rope> _ropes = new List<Rope>();
+
     public Camera _camera;
     public Rigidbody _rigidbody;
     public GameObject _target;
     public AudioClip _fireSound1;
     public AudioClip _fireSound2;
-    public Material _ropeMaterial1;
     public AudioClip _buCaw = null;
-    public Material _ropeMaterial2;
     public AudioClip _collision = null;
-
+    public Material _ropeMaterial1;
+    public Material _ropeMaterial2;
+    
     public Hud _hud;
     public GameObject _grapple;
     public string _nextLevel;
@@ -58,10 +60,8 @@ public class Player : MonoBehaviour
         }
 
         _pitchMax = Mathf.Clamp(_pitchMax, 0.0f, 90.0f);
-        //_hookPoint = transform.position + transform.forward * _ropeLength;
-        //_ropeDeployed = 3;
         _fxAudioSource = gameObject.AddComponent<AudioSource>();
-        _targetAudioSource = _target.AddComponent<AudioSource>();
+        //_targetAudioSource = _target.AddComponent<AudioSource>();
 
         if (!_camera)
         {
@@ -80,10 +80,6 @@ public class Player : MonoBehaviour
         _rigidbody.angularDrag = 0.0f;
         _rigidbody.freezeRotation = true;
         _rigidbody.isKinematic = false;
-
-        _ropeRenderer = gameObject.AddComponent<LineRenderer>();
-        _ropeRenderer.useWorldSpace = true;
-        _ropeRenderer.enabled = false;
     }
 
     // Update is called once per frame
@@ -141,6 +137,7 @@ public class Player : MonoBehaviour
         float mouseY = Input.GetAxis("Mouse Y");
         bool fire1 = Input.GetButtonDown("Fire1");
         bool fire2 = Input.GetButtonDown("Fire2");
+        bool fire3 = Input.GetButtonDown("Fire3");
 
         // Camera
 
@@ -155,81 +152,168 @@ public class Player : MonoBehaviour
         _camera.transform.forward = transform.forward;
         _camera.transform.Rotate(_pitch, 0.0f, 0.0f);
 
-        // Grapple Hook
+        // Grapple Hooks
 
         int layerMask = ~(1 << PLAYER_LAYER);  // Ignore Player Layer
-        int rope = fire1 ? 1 : (fire2 ? 2 : 0);
-        RaycastHit hit;
-        if (Physics.Raycast(_camera.transform.position, _camera.transform.forward, out hit, maxDistance: _ropeLength, layerMask: layerMask))
+        RaycastHit hitInfo;
+        bool wasHit = Physics.Raycast(
+            _camera.transform.position, 
+            _camera.transform.forward, 
+            out hitInfo, 
+            maxDistance: _ropeLength, 
+            layerMask: layerMask
+        );
+
+        if (wasHit)
         {
-            bool hitHook = true; //(hit.collider.gameObject.tag == HOOKER_TAG || hit.collider.gameObject.tag == ROOF_TAG);
-            if (rope == _ropeDeployed)
-            {
-                _grapple.SetActive(false);
-                _ropeDeployed = 0;
-            }
-            else if (hitHook && rope > 0)
-            {
-                _grapple.transform.parent = hit.collider.transform;
-                _grapple.transform.position = hit.point;
-                _fxAudioSource.PlayOneShot(_fireSound1);
-                _ropeDeployed = rope;
+            _target.transform.position = hitInfo.point;
+        }
+        _target.SetActive(wasHit);
 
-                var nearbyColliders = Physics.OverlapSphere(transform.position, 3.0f);
-                var nearRoof = false;
-                foreach (var c in nearbyColliders)
-                {
-                    if (c.gameObject.tag == ROOF_TAG)
-                    {
-                        nearRoof = true;
-                        break;
-                    }
-                }
-                if (nearRoof)
-                {
-                    _rigidbody.AddForce(
-                        transform.up * 2.0f,
-                        ForceMode.VelocityChange
-                    );
-                }
-
-                _rigidbody.AddForce(
-                    _rigidbody.velocity * -0.5f, 
-                    ForceMode.VelocityChange
-                );
-                //_targetAudioSource.Stop();
-                //_targetAudioSource.clip = _fireSound2;
-                //_targetAudioSource.loop = false;
-                //_targetAudioSource.rolloffMode = AudioRolloffMode.Logarithmic;
-                //_targetAudioSource.spatialize = false;
-                //_targetAudioSource.spatialBlend = 0.9f;
-                //_targetAudioSource.PlayDelayed(1.0f);
-                //_targetAudioSource.PlayDelayed(Mathf.Min(0.1f, hit.distance / _ropeLength * 2.0f));
-            }
-            _target.transform.position = hit.point;
-            _target.SetActive(hitHook);
+        if (fire3)
+        {
+            FireRopeBomb();
         }
         else
         {
-            if (rope == _ropeDeployed)
+            if (fire1)
             {
-                _grapple.SetActive(false);
-                _ropeDeployed = 0;
+                FireRope(1, wasHit, hitInfo);
             }
-            _target.SetActive(false);
+            if (fire2)
+            {
+                FireRope(2, wasHit, hitInfo);
+            }
         }
 
-        if (_ropeDeployed > 0)
+        foreach (var r in _ropes)
         {
-            //var ropeColor = GetRopeColor(_ropeDeployed);
-            var ropeVector = (_grapple.transform.position - transform.position);
-            _rigidbody.AddForce(ropeVector * _ropeForce, ForceMode.Acceleration);
+            r.Update();
+        }
+    }
 
-            //var grappleScale = new Vector3(
-            //    1.0f / _grapple.transform.lossyScale.x,
-            //    1.0f / _grapple.transform.lossyScale.y,
-            //    1.0f / _grapple.transform.lossyScale.z
-            //);
+    private void FireRope(int id, bool wasHit, RaycastHit hitInfo)
+    {
+        for (int i = _ropes.Count - 1; i >= 0; --i)
+        {
+            var r = _ropes[i];
+            if (r._id == id || r._id == 3)
+            {
+                r.Dispose();
+                _ropes.RemoveAt(i);
+            }
+        }
+        if (wasHit)
+        {
+            var r = new Rope(id, this, hitInfo);
+            _ropes.Add(r);
+
+            // Play the firing sound
+            _fxAudioSource.PlayOneShot(_fireSound1);
+
+            // Slow the player down
+            _rigidbody.AddForce(
+                _rigidbody.velocity * -0.5f,
+                ForceMode.VelocityChange
+            );
+
+            // Jump up if near a roof
+            int layerMask = ~(1 << PLAYER_LAYER);  // Ignore Player Layer
+            var nearbyColliders = Physics.OverlapSphere(transform.position, 3.0f, layerMask);
+            var nearRoof = false;
+            foreach (var c in nearbyColliders)
+            {
+                if (c.gameObject.tag == ROOF_TAG)
+                {
+                    nearRoof = true;
+                    break;
+                }
+            }
+            if (nearRoof)
+            {
+                _rigidbody.AddForce(
+                    transform.up * 2.0f,
+                    ForceMode.VelocityChange
+                );
+            }
+        }
+    }
+
+    private void FireRopeBomb()
+    {
+        // Remove all ropes
+        foreach (var r in _ropes)
+        {
+            r.Dispose();
+        }
+        _ropes.Clear();
+
+        // Spawn ropes
+        Vector3 playerPosition = transform.position;
+        int birdMask = (1 << BIRD_LAYER);
+        int playerMask = ~(1 << PLAYER_LAYER);  // Ignore Player Layer
+        var nearbyColliders =
+            from c in Physics.OverlapSphere(transform.position, _ropeLength * 0.5f, birdMask)
+            select new {
+                c,
+                c.transform.position,
+                c.gameObject.tag,
+                distance = (c.transform.position - playerPosition).magnitude
+        };
+        foreach (var x in nearbyColliders.OrderBy(x => x.distance).Take(8))
+        {
+            RaycastHit hitInfo;
+            bool wasHit = Physics.Linecast(
+                playerPosition,
+                x.position,
+                out hitInfo,
+                layerMask: playerMask
+            );
+            if (wasHit && (hitInfo.collider.gameObject.tag == BIRD_TAG || hitInfo.collider.gameObject.tag == NEAR_BIRD_TAG))
+            {
+                var r = new Rope(3, this, hitInfo);
+                _ropes.Add(r);
+            }
+        }
+
+        // Play the firing sound
+        if (_ropes.Count > 0)
+        {
+            _fxAudioSource.PlayOneShot(_fireSound1);
+        }
+    }
+
+    public class Rope : IDisposable
+    {
+        public int _id;
+        public Player _player;
+        public Material _ropeMaterial;
+        public GameObject _grapple;
+        public LineRenderer _ropeRenderer;
+
+        public Rope(int id, Player player, RaycastHit hitInfo)
+        {
+            _id = id;
+            _player = player;
+            _ropeMaterial = _player.GetRopeMaterial(id);
+
+            // Create the grapple hook
+            _grapple = (GameObject)GameObject.Instantiate(_player._grapple, hitInfo.point, Quaternion.identity);
+            _grapple.transform.parent = hitInfo.collider.transform;
+            _grapple.transform.position = hitInfo.point;
+            _grapple.transform.forward = (hitInfo.point - _player.transform.position).normalized;
+
+            // Add a rope to the grapple hook
+            _ropeRenderer = _grapple.AddComponent<LineRenderer>();
+            _ropeRenderer.material = _ropeMaterial;
+            _ropeRenderer.useWorldSpace = true;
+            _ropeRenderer.enabled = true;
+            _ropeRenderer.SetWidth(0.1f, 0.1f);
+            _ropeRenderer.SetColors(Color.white, Color.white);
+        }
+
+        public void Update()
+        {
             var grappleScale = Vector3.one;
             var grappleParent = _grapple.transform.parent;
             while (grappleParent != null)
@@ -239,17 +323,13 @@ public class Player : MonoBehaviour
                 grappleScale.z /= grappleParent.localScale.z;
                 grappleParent = grappleParent.parent;
             }
-            _grapple.transform.rotation = _camera.transform.rotation;
             _grapple.transform.localScale = grappleScale;
             _grapple.SetActive(true);
 
-            Vector3 ropeStart = transform.position + transform.up * -2.0f;
+            Vector3 playerPosition = _player.transform.position;
+            Vector3 ropeStart = playerPosition + _player.transform.up * -2.0f;
             Vector3 ropeEnd = _grapple.transform.position;
-            int segments = 10;
-            _ropeRenderer.useWorldSpace = true;
-            _ropeRenderer.material = GetRopeMaterial(_ropeDeployed);
-            _ropeRenderer.SetWidth(0.1f, 0.1f);
-            _ropeRenderer.SetColors(Color.white, Color.white);
+            int segments = 1;
             _ropeRenderer.SetVertexCount(1 + segments);
             _ropeRenderer.SetPosition(0, ropeStart);
             for (int i = 1; i < segments; ++i)
@@ -261,10 +341,16 @@ public class Player : MonoBehaviour
             }
             _ropeRenderer.SetPosition(segments, ropeEnd);
             _ropeRenderer.enabled = true;
+
+            var ropeVector = (ropeEnd - playerPosition);
+            _player._rigidbody.AddForce(ropeVector * _player._ropeForce, ForceMode.Acceleration);
         }
-        else
+
+        public void Dispose()
         {
+            _grapple.SetActive(false);
             _ropeRenderer.enabled = false;
+            GameObject.Destroy(_grapple);
         }
     }
 
@@ -290,7 +376,7 @@ public class Player : MonoBehaviour
             case 2:
                 return _ropeMaterial2;
             default:
-                return null;
+                return _ropeMaterial1;
         }
     }
 
@@ -299,12 +385,16 @@ public class Player : MonoBehaviour
         if (!_dead && !_goalReached)
         {
             _dead = true;
-            _ropeDeployed = 0;
             _rigidbody.AddForce(_rigidbody.velocity * -0.5f, ForceMode.VelocityChange);
-            _grapple.SetActive(false);
             _fxAudioSource.PlayOneShot(_collision, 0.5f);
             _hud.FadeTo(Color.black, _loadLevelDelay * 0.5f);
             _hud.text.text = "OUCH!\n\nYOU SHOULD HAVE KNOWN BY NOW";
+
+            foreach (var r in _ropes)
+            {
+                r.Dispose();
+            }
+            _ropes.Clear();
         }
     }
     public void OnGoalReached()
@@ -312,11 +402,15 @@ public class Player : MonoBehaviour
         if (!_dead && !_goalReached)
         {
             _goalReached = true;
-            _ropeDeployed = 0;
             _rigidbody.AddForce(-_rigidbody.velocity, ForceMode.VelocityChange);
-            _grapple.SetActive(false);
             _hud.FadeTo(Color.white, _loadLevelDelay * 0.5f);
             _hud.text.text = "A LITTLE BIT HARDER NOW";
+
+            foreach (var r in _ropes)
+            {
+                r.Dispose();
+            }
+            _ropes.Clear();
         }
     }
 
