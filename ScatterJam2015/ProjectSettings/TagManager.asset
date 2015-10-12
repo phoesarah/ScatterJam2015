@@ -18,6 +18,9 @@ TagManager:
   - NearBird
   - PlayButton
   - Bird
+  - CreditsButton
+  - Return
+  - Loading
   layers:
   - Default
   - TransparentFX
